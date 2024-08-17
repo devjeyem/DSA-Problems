@@ -13,7 +13,7 @@ int main()
         weights[i] = rand() % 11; // Generate random number between 0 and 10   
     }
 
-    for (int i = 0;i<10;i++) //
+    for (int i = 0;i<10;i++) 
     {
         printf("%.2lf, ", weights[i]);
         sum += weights[i];

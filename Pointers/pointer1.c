@@ -24,16 +24,17 @@ int main()
     printf("%p ", p);
     printf("%p ", q);
     printf("%p ", r);    
-    printf("%p ", s); //
+    printf("%p ", s); 
     printf("%p ", t);
     printf("%p ", u);
-    printf("%p ", v); //changedd
+    printf("%p ", v); 
 
     printf("\n");
 
      int a = 1, b = 2, c = 3, d = 4, e = 5;
     int *arr[] = {&a, &b, &c, &d, &e}; // Array of pointers to integers
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++) 
+    {
         printf("%d ", *arr[i]); // Print the address stored in each pointer
     }
   
@@ -46,8 +47,6 @@ int main()
     }
 
     free(arr2); 
-
-    //change
-
+    arr2 = NULL;
        
 }

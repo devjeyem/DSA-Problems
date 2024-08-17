@@ -12,7 +12,7 @@ int main()
         cumulative[i] = cumulative[i-1]+arr[i];
     }
 
-    for (int i = 0; i < 7; i++) //
+    for (int i = 0; i < 7; i++) 
     {
         printf("%d ", cumulative[i]);
     }
