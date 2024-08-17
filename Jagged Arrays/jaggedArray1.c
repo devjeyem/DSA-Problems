@@ -12,7 +12,7 @@ int main()
 
     printf("Enter %d characters: " , n);
     for (int i = 0; i<n; i++)
-        scanf("%c",&c[i]);
+        scanf("%c", c+i);
     c[n] = '\0';
     printf("%s\n",c);
 

@@ -11,14 +11,14 @@ int main()
 
     for (int i = 0 ; i<n; i++)
     {
-        scanf("%d",&num[i]);
+        scanf("%d",num+i);
     }
 
     for (int i = 0;i<n;i++)
     {
         if (num[i]%3 == 0)
         {
-            printf("%d, ",num[i]);
+            printf("%d ",*(num+i));
         }
     }
 
