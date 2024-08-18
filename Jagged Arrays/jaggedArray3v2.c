@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-int main() {
+int main() 
+{
+    system("cls");
     int jagged[5][5]; //BigO(n)
 
     // Initialize the array
