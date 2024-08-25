@@ -16,8 +16,14 @@ struct Student
     char gender;
 };
 
-void createNewFile(string activeFile, vector<Student> students); // Create a File.
+string createNewFile(vector<Student> students); // Create a File.
 void displayStudentRecords(string activeFile, vector<Student> students); // Display of current record.
+void manageData(string activeFile,  vector<Student> students); // Manage data button.
+void saveFileButton(string activeFile,  vector<Student> students); // Save current file.
+void addRecordButton(vector<Student> &students); //Implement the addRecord buttion.
+void editRecordButton(vector<Student> &students, int i); //Edit existing records.
+void deleteRecordButton(vector<Student> &students, int i); //Delete a record.
+
 
 int main ()
 {
@@ -27,8 +33,8 @@ int main ()
     // Test creating a new file
     createNewFile(activeFile, students);*/
 
-    std::string activeFile = "sample.txt";
-    std::vector<Student> students = 
+    string activeFile = "sample.txt";
+    vector<Student> students = 
     {
         {"01-1-00177", "ABELLA", "JOCELYN", "1/1/90", 'F'},
         {"98-1-00754", "AURE REV", "RHIZZA", "1/2/90", 'M'},
@@ -41,22 +47,21 @@ int main ()
     char choice;
     do
     {
-        std::cout << "Active File : [" << activeFile << "]\n";
-        std::cout << "[1] Create New File [2] Open an Existing File [3] Manage Data [4] Exit\n";
-        std::cout << "Enter choice: ";
-        std::cin >> choice;
+        cout << "Active File : [" << activeFile << "]\n";
+        cout << "[1] Create New File [2] Open an Existing File [3] Manage Data [4] Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
 
         switch (choice)
         {
             case '1':
-                createNewFile(activeFile,students);
+                activeFile = createNewFile(students);
                 break;
             case '3':
-                displayStudentRecords(activeFile,students);
+                manageData(activeFile,students);
                 break;
-
             case '4':
-                cout << "Exit program.\n";
+                cout << "Thank you for using! :)\n";
                 break;
             default:
                 cout << "Choose again.\n";
@@ -66,27 +71,30 @@ int main ()
     return 0;
 }
 
-void createNewFile(string activeFile, vector<Student> students) //Create a File. (Checked)
+string createNewFile(vector<Student> students) //Create a File. (Checked)
 {   
+    string newFileName;
     cout << "Enter new file name: ";
-    cin >> activeFile;
-    ofstream outStudRec(activeFile);
-    if (outStudRec)
+    cin >> newFileName;
+    ofstream outStudRec(newFileName);
+    if (outStudRec.is_open())
     {
-        std::cout << "File created successfully. :)\n";
+        cout << "File created successfully. :)\n";
         students.clear();
     }
     else
     {
-        std::cout << "File not created. :( \n";
+        cout << "File not created. :( \n";
     }
+    return newFileName;
 }
 
-void displayStudentRecords(string activeFile, vector<Student> students)
+void displayStudentRecords(string activeFile, vector<Student> students) //Working
 {
     cout << "Active File : [" << activeFile << "]" << endl;
     cout << "---------------------------------------------------------------------------" << endl;
     cout << "Rec\tStudent ID\tSurname\t\tFirstname\tBirthDate\tSex" << endl;
+    cout << "---------------------------------------------------------------------------" << endl;
     for (int i = 0; i < students.size(); i++)
     {
         cout << i + 1 << "\t" << students[i].studentId << "\t" 
@@ -98,3 +106,168 @@ void displayStudentRecords(string activeFile, vector<Student> students)
     cout << "---------------------------------------------------------------------------" << endl;
 }
 
+void manageData(string activeFile, vector<Student>students) 
+{
+    char choice;
+    do
+    {
+        displayStudentRecords(activeFile,students);
+        cout << "[A]dd [E]dit [D]elete [S]ort sa[V]e e[X]it" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+        cout << endl;
+
+        switch(choice)
+        {
+            case 'A':
+            case 'a':
+            {
+                addRecordButton(students);
+                break;
+            }
+            case 'E':
+            case 'e':
+            {
+                int index;
+                cout << "Enter record number you wish to edit: ";
+                cin >> index;
+                editRecordButton(students,index - 1);
+                break;
+            }
+            case 'D':
+            case 'd':
+            {
+                int index;
+                cout << "Enter record number you wish to delete: ";
+                cin >> index;
+                deleteRecordButton(students, index - 1);
+                break;
+            }
+            case 'V':
+            case 'v':
+            {
+                saveFileButton(activeFile,students);
+                break;
+            }
+            case 'X' :
+            case 'x' :
+            {
+                cout << "Exiting Manage Data Option..." << endl; 
+                break;
+            }
+            default:
+            {
+                cout << "Enter valid choice please..."  << endl;
+
+            }
+           
+        }
+    } while (choice!= 'X'  && choice != 'x');
+}
+
+void saveFileButton(string activeFile, vector<Student> students)
+{
+    ofstream outStudRec(activeFile);
+    if (!outStudRec)
+    {
+        cout << "Error / Cannot save!" << endl;
+        return;
+    }
+
+    for (int i = 0; i< students.size(); i++)
+    {
+        outStudRec << students[i].studentId << " " << students[i].surName << " "
+                   << students[i].firstName << " " << students[i].birthDate << " "
+                   << students[i].gender << endl;
+    }
+    cout << "File saved successfully!" << endl;
+}
+
+void addRecordButton(vector<Student> &students)
+{
+    Student newStudent;
+    cout << "Rec:[" << students.size() + 1 << "]" << endl;
+    cout << endl;
+    cout << "Student ID : ";
+    cin  >> newStudent.studentId;
+    cout << "Surname    : ";
+    cin.ignore();
+    getline(cin,newStudent.surName);
+    cout << "Firstname  : ";
+    getline(cin,newStudent.firstName);
+    cout << "Birthdate  : ";
+    cin >> newStudent.birthDate;
+    cout << "Sex        : ";
+    cin >> newStudent.gender;
+
+    students.push_back(newStudent);
+    cout << "Added successfully!"  << endl;
+}
+
+void editRecordButton(vector<Student> &students, int i)
+{
+    int size = students.size();
+    if (i < 0 || i >= size)
+    {
+        cout << "Invalid number! Try again." << endl;
+        return;
+    }
+    cout << endl;
+    Student &student = students[i];
+    cout << "Rec:[" << i+1 << "]"  << endl;
+    cout << "\t\tCurrent\t\tNew" << endl;
+    cout << "Student ID\t:  " << student.studentId << "\t: ";
+    string newStudentId;
+    cin  >> newStudentId;
+    if (!newStudentId.empty())
+    {
+        student.studentId = newStudentId;
+    }
+
+    cout << "Surname   \t: " << student.surName << "\t: ";
+    string newSurname;
+    cin.ignore();
+    getline(cin,newSurname);
+    if (!newSurname.empty())
+    {
+        student.surName = newSurname;
+    }
+
+    cout << "Firstname \t: " << student.firstName << "\t: ";
+    string newFirstName;
+    getline(cin,newFirstName);
+    if (!newFirstName.empty())
+    {
+        student.firstName = newFirstName;
+    }
+
+    cout <<  "Birthdate \t: " << student.birthDate << "\t: ";
+    string newBirthDate;
+    cin >> newBirthDate;
+    if (!newBirthDate.empty())
+    {
+        student.birthDate = newBirthDate;
+    }
+
+    cout << "Sex        \t: " << student.gender << "\t\t: ";
+    char newSex;
+    cin >> newSex;
+    if (newSex == 'M' || newSex == 'F')
+    {
+        student.gender = newSex;
+    }
+    cout << "Record successfully edited!" << endl;
+}
+
+void deleteRecordButton(vector<Student> &students, int i)
+{
+    int size = students.size();
+    if (i < 0 || i >= size)
+    {
+        cout << "Invalid record number. Try again.\n";
+        return;
+    }
+
+    students.erase(students.begin() + i);
+    cout << "Record deleted successfully.\n";
+}
