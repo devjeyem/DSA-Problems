@@ -4,6 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iomanip>
+#include <ctype.h>
 
 using namespace std;
 
@@ -16,13 +17,15 @@ struct Student
     char gender;
 };
 
-string createNewFile(vector<Student> students); // Create a File.
-void displayStudentRecords(string activeFile, vector<Student> students); // Display of current record.
-void manageData(string activeFile,  vector<Student> students); // Manage data button.
-void saveFileButton(string activeFile,  vector<Student> students); // Save current file.
+string createNewFile(vector<Student> &students); // Create a File.
+void displayStudentRecords(string activeFile, vector<Student> &students); // Display of current record.
+void manageData(string activeFile,  vector<Student> &students); // Manage data button.
+void saveFileButton(string activeFile,  vector<Student> &students); // Save current file.
 void addRecordButton(vector<Student> &students); //Implement the addRecord buttion.
 void editRecordButton(vector<Student> &students, int i); //Edit existing records.
 void deleteRecordButton(vector<Student> &students, int i); //Delete a record.
+void sortBySurnameButton(vector <Student> &students); //Sort by Surname button.
+
 
 
 int main ()
@@ -71,7 +74,7 @@ int main ()
     return 0;
 }
 
-string createNewFile(vector<Student> students) //Create a File. (Checked)
+string createNewFile(vector<Student> &students) //Create a File. (Checked)
 {   
     string newFileName;
     cout << "Enter new file name: ";
@@ -89,7 +92,7 @@ string createNewFile(vector<Student> students) //Create a File. (Checked)
     return newFileName;
 }
 
-void displayStudentRecords(string activeFile, vector<Student> students) //Working
+void displayStudentRecords(string activeFile, vector<Student> &students) //Working
 {
     cout << "Active File : [" << activeFile << "]" << endl;
     cout << "---------------------------------------------------------------------------" << endl;
@@ -106,7 +109,7 @@ void displayStudentRecords(string activeFile, vector<Student> students) //Workin
     cout << "---------------------------------------------------------------------------" << endl;
 }
 
-void manageData(string activeFile, vector<Student>students) 
+void manageData(string activeFile, vector<Student> &students) 
 {
     char choice;
     do
@@ -117,16 +120,14 @@ void manageData(string activeFile, vector<Student>students)
         cin >> choice;
         cout << endl;
 
-        switch(choice)
+        switch(toupper(choice))
         {
             case 'A':
-            case 'a':
             {
                 addRecordButton(students);
                 break;
             }
             case 'E':
-            case 'e':
             {
                 int index;
                 cout << "Enter record number you wish to edit: ";
@@ -135,7 +136,6 @@ void manageData(string activeFile, vector<Student>students)
                 break;
             }
             case 'D':
-            case 'd':
             {
                 int index;
                 cout << "Enter record number you wish to delete: ";
@@ -143,14 +143,17 @@ void manageData(string activeFile, vector<Student>students)
                 deleteRecordButton(students, index - 1);
                 break;
             }
+            case 'S':
+            {
+                sortBySurnameButton(students);
+                break;
+            }
             case 'V':
-            case 'v':
             {
                 saveFileButton(activeFile,students);
                 break;
             }
             case 'X' :
-            case 'x' :
             {
                 cout << "Exiting Manage Data Option..." << endl; 
                 break;
@@ -165,7 +168,7 @@ void manageData(string activeFile, vector<Student>students)
     } while (choice!= 'X'  && choice != 'x');
 }
 
-void saveFileButton(string activeFile, vector<Student> students)
+void saveFileButton(string activeFile, vector<Student> &students)
 {
     ofstream outStudRec(activeFile);
     if (!outStudRec)
@@ -271,3 +274,20 @@ void deleteRecordButton(vector<Student> &students, int i)
     students.erase(students.begin() + i);
     cout << "Record deleted successfully.\n";
 }
+
+void sortBySurnameButton(vector <Student> &students)
+{
+    for (int i = 0; i < students.size(); i++)
+    {
+        for (int j = 0; j<students.size()-i-1; j++)
+        {
+            if (students[j].surName> students[j+1].surName)
+            {
+                Student temp = students[j];
+                students[j] = students[j+1];
+                students[j+1] = temp;
+            }
+        }
+    }
+}
+
