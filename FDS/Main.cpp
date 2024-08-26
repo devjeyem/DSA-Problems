@@ -18,15 +18,15 @@ struct Student
 };
 
 string createNewFile(vector<Student> &students); // Create a File.
-void displayStudentRecords(string activeFile, vector<Student> &students); // Display of current record.
-void manageData(string activeFile,  vector<Student> &students); // Manage data button.
-void saveFileButton(string activeFile,  vector<Student> &students); // Save current file.
+void displayStudentRecords(string &activeFile, vector<Student> &students); // Display of current record.
+void manageData(string &activeFile,  vector<Student> &students); // Manage data button.
+void saveFileButton(string &activeFile,  vector<Student> &students); // Save current file.
 void addRecordButton(vector<Student> &students); //Implement the addRecord buttion.
 void editRecordButton(vector<Student> &students, int i); //Edit existing records.
 void deleteRecordButton(vector<Student> &students, int i); //Delete a record.
 void sortBySurnameButton(vector <Student> &students); //Sort by Surname button.
-
-
+void sortByIdButton(vector <Student> &students); // Sort by studentID.
+void openExistingFileButton(string &activeFile, std::vector<Student> &students); //Open existing file.
 
 int main ()
 {
@@ -35,23 +35,14 @@ int main ()
     cin >> activeFile;
     // Test creating a new file
     createNewFile(activeFile, students);*/
-
-    string activeFile = "sample.txt";
-    vector<Student> students = 
-    {
-        {"01-1-00177", "ABELLA", "JOCELYN", "1/1/90", 'F'},
-        {"98-1-00754", "AURE REV", "RHIZZA", "1/2/90", 'M'},
-        {"01-1-00385", "AUSTERO", "AGNES MARIE", "1/3/90", 'F'},
-        {"01-1-01114", "BALDO", "DEMETRIO", "1/4/90", 'M'},
-        {"01-1-00706", "CACHUELA", "DAISY", "1/5/90", 'F'},
-        {"01-1-01143", "CADIZ", "ADELFA", "1/6/90", 'F'}
-    };
-
+    system("cls");
+    string activeFile = "";
+    vector<Student> students;
     char choice;
     do
     {
-        cout << "Active File : [" << activeFile << "]\n";
-        cout << "[1] Create New File [2] Open an Existing File [3] Manage Data [4] Exit\n";
+        cout << "Active File : [" << (activeFile.empty() ? "None" : activeFile) << "]" << endl;
+        cout << "[1] Create New File [2] Open an Existing File [3] Manage Data [4] Exit " << endl;
         cout << "Enter choice: ";
         cin >> choice;
 
@@ -60,8 +51,18 @@ int main ()
             case '1':
                 activeFile = createNewFile(students);
                 break;
+            case '2':
+                openExistingFileButton(activeFile, students);
+                break;
             case '3':
-                manageData(activeFile,students);
+                if (!activeFile.empty())
+                {
+                    manageData(activeFile, students);
+                }
+                else
+                {
+                    cout << "No file open! Please open or create a file first." << endl;
+                }
                 break;
             case '4':
                 cout << "Thank you for using! :)\n";
@@ -92,7 +93,7 @@ string createNewFile(vector<Student> &students) //Create a File. (Checked)
     return newFileName;
 }
 
-void displayStudentRecords(string activeFile, vector<Student> &students) //Working
+void displayStudentRecords(string &activeFile, vector<Student> &students) //Working
 {
     cout << "Active File : [" << activeFile << "]" << endl;
     cout << "---------------------------------------------------------------------------" << endl;
@@ -104,12 +105,11 @@ void displayStudentRecords(string activeFile, vector<Student> &students) //Worki
              << setw(10) << left <<  students[i].surName << "\t" 
              << setw(10) << left << students[i].firstName << "\t" << students[i].birthDate << "\t\t" 
              << students[i].gender << endl;
-
     }
     cout << "---------------------------------------------------------------------------" << endl;
 }
 
-void manageData(string activeFile, vector<Student> &students) 
+void manageData(string &activeFile, vector<Student> &students) 
 {
     char choice;
     do
@@ -145,7 +145,21 @@ void manageData(string activeFile, vector<Student> &students)
             }
             case 'S':
             {
-                sortBySurnameButton(students);
+                char c;
+                cout << "Sort by     : [S]urname [I]D "<< endl;
+                cout << "Enter choice: ";
+                cin >> c;
+                switch(toupper(c))
+                    case 'S':
+                    {
+                        sortBySurnameButton(students);
+                        break;
+                    }
+                    case 'I':
+                    {
+                        sortByIdButton(students);
+                        break;
+                    }
                 break;
             }
             case 'V':
@@ -168,7 +182,7 @@ void manageData(string activeFile, vector<Student> &students)
     } while (choice!= 'X'  && choice != 'x');
 }
 
-void saveFileButton(string activeFile, vector<Student> &students)
+void saveFileButton(string &activeFile, vector<Student> &students)
 {
     ofstream outStudRec(activeFile);
     if (!outStudRec)
@@ -291,3 +305,63 @@ void sortBySurnameButton(vector <Student> &students)
     }
 }
 
+void sortByIdButton(vector <Student> &students)
+{
+    for (int i = 0; i < students.size(); i++)
+    {
+        for (int j = 0; j<students.size()-i-1; j++)
+        {
+            if (students[j].studentId> students[j+1].studentId)
+            {
+                Student temp = students[j];
+                students[j] = students[j+1];
+                students[j+1] = temp;
+            }
+        }
+    }
+}
+
+void openExistingFileButton(string &activeFile, vector<Student> &students)
+{
+    cout << "Enter filename to open: ";
+    cin >> activeFile;
+
+    ifstream inStudRec(activeFile);
+    if (!inStudRec)
+    {
+        cout << "Error opening file: " << activeFile << endl;
+        return;
+    }
+    students.clear();
+
+    while (inStudRec)
+    {
+        Student student;
+        inStudRec >> student.studentId >> student.surName;
+
+        string firstNamePart;
+        student.firstName = "";
+        while (inStudRec >> firstNamePart)
+        {
+            if (firstNamePart.find('/') != string::npos)
+            {
+                student.birthDate = firstNamePart;
+                break;
+            }
+            if (!student.firstName.empty())
+            {
+                student.firstName += " ";
+            }
+            student.firstName += firstNamePart;
+        }
+
+        inStudRec >> student.gender;
+        if (inStudRec)
+        {
+            students.push_back(student);
+        }
+    }
+
+    inStudRec.close();
+    cout << "File opened successfully: " << activeFile << endl;
+}
