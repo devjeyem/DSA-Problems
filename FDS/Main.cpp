@@ -69,6 +69,8 @@ int main ()
                 break;
             default:
                 cout << "Choose again.\n";
+                cin.clear();
+                //cin.ignore();
         }
     } while (choice!='4');
 
@@ -145,21 +147,18 @@ void manageData(string &activeFile, vector<Student> &students)
             }
             case 'S':
             {
-                char c;
-                cout << "Sort by     : [S]urname [I]D "<< endl;
+                int c;
+                cout << "Sort by     : [1]Surname [2]ID "<< endl;
                 cout << "Enter choice: ";
                 cin >> c;
-                switch(toupper(c))
-                    case 'S':
-                    {
-                        sortBySurnameButton(students);
-                        break;
-                    }
-                    case 'I':
-                    {
-                        sortByIdButton(students);
-                        break;
-                    }
+                if (c==1)
+                {
+                    sortBySurnameButton(students);
+                }
+                else
+                {
+                    sortByIdButton(students);
+                }
                 break;
             }
             case 'V':
@@ -197,7 +196,7 @@ void saveFileButton(string &activeFile, vector<Student> &students)
                    << students[i].firstName << " " << students[i].birthDate << " "
                    << students[i].gender << endl;
     }
-    cout << "File saved successfully!" << endl;
+    cout << "File saved successfully!" << endl << endl;
 }
 
 void addRecordButton(vector<Student> &students)
@@ -218,7 +217,7 @@ void addRecordButton(vector<Student> &students)
     cin >> newStudent.gender;
 
     students.push_back(newStudent);
-    cout << "Added successfully!"  << endl;
+    cout << "Added successfully!"  << endl << endl;
 }
 
 void editRecordButton(vector<Student> &students, int i)
@@ -273,7 +272,7 @@ void editRecordButton(vector<Student> &students, int i)
     {
         student.gender = newSex;
     }
-    cout << "Record successfully edited!" << endl;
+    cout << "Record successfully edited!" << endl << endl;
 }
 
 void deleteRecordButton(vector<Student> &students, int i)
@@ -289,21 +288,23 @@ void deleteRecordButton(vector<Student> &students, int i)
     cout << "Record deleted successfully.\n";
 }
 
-void sortBySurnameButton(vector <Student> &students)
+void sortBySurnameButton(vector<Student> &students)
 {
-    for (int i = 0; i < students.size(); i++)
+    for (int i = 0; i < students.size() - 1; i++)
     {
-        for (int j = 0; j<students.size()-i-1; j++)
+        for (int j = 0; j < students.size() - i - 1; j++)
         {
-            if (students[j].surName> students[j+1].surName)
+            if (students[j].surName > students[j + 1].surName)
             {
                 Student temp = students[j];
-                students[j] = students[j+1];
-                students[j+1] = temp;
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
             }
         }
     }
+    cout << "Sorted by Surname successfully applied!" << endl << endl;
 }
+
 
 void sortByIdButton(vector <Student> &students)
 {
@@ -319,6 +320,7 @@ void sortByIdButton(vector <Student> &students)
             }
         }
     }
+    cout << "Sorted by ID successfully applied!" << endl << endl;
 }
 
 void openExistingFileButton(string &activeFile, vector<Student> &students)
@@ -329,7 +331,7 @@ void openExistingFileButton(string &activeFile, vector<Student> &students)
     ifstream inStudRec(activeFile);
     if (!inStudRec)
     {
-        cout << "Error opening file: " << activeFile << endl;
+        cout << "Error opening file: " << activeFile << endl << endl;
         return;
     }
     students.clear();
@@ -363,5 +365,5 @@ void openExistingFileButton(string &activeFile, vector<Student> &students)
     }
 
     inStudRec.close();
-    cout << "File opened successfully: " << activeFile << endl;
+    cout << "File opened successfully: " << activeFile << endl << endl;
 }
