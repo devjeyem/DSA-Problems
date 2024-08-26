@@ -116,6 +116,11 @@ void manageData(string &activeFile, vector<Student> &students)
     char choice;
     do
     {
+        if(activeFile == "None");
+        {
+            cout << "No active file. Please create a new file first." << endl << endl;
+            break;
+        }
         displayStudentRecords(activeFile,students);
         cout << "[A]dd [E]dit [D]elete [S]ort sa[V]e e[X]it" << endl;
         cout << "Enter choice: ";
@@ -331,7 +336,8 @@ void openExistingFileButton(string &activeFile, vector<Student> &students)
     ifstream inStudRec(activeFile);
     if (!inStudRec)
     {
-        cout << "Error opening file: " << activeFile << endl << endl;
+        cout << "File does not exist! " << endl << endl;
+        activeFile = "None";
         return;
     }
     students.clear();
