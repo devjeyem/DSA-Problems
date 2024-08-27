@@ -97,93 +97,102 @@ string createNewFile(vector<Student> &students) //Create a File. (Checked)
 
 void displayStudentRecords(string &activeFile, vector<Student> &students) //Working
 {
-    cout << "Active File : [" << activeFile << "]" << endl;
-    cout << "---------------------------------------------------------------------------" << endl;
-    cout << "Rec\tStudent ID\tSurname\t\tFirstname\tBirthDate\tSex" << endl;
-    cout << "---------------------------------------------------------------------------" << endl;
-    for (int i = 0; i < students.size(); i++)
+    if (!(activeFile == "None"))
     {
+        cout << "Active File : [" << activeFile << "]" << endl;
+        cout << "---------------------------------------------------------------------------" << endl;
+        cout << "Rec\tStudent ID\tSurname\t\tFirstname\tBirthDate\tSex" << endl;
+        cout << "---------------------------------------------------------------------------" << endl;
+        for (int i = 0; i < students.size(); i++)
+        {
         cout << i + 1 << "\t" << students[i].studentId << "\t" 
              << setw(10) << left <<  students[i].surName << "\t" 
              << setw(10) << left << students[i].firstName << "\t" << students[i].birthDate << "\t\t" 
              << students[i].gender << endl;
+        }
+        cout << "---------------------------------------------------------------------------" << endl;
     }
-    cout << "---------------------------------------------------------------------------" << endl;
+    else 
+    {
+        cout << "No active file! " << endl << endl;
+    }
 }
 
 void manageData(string &activeFile, vector<Student> &students) 
 {
     char choice;
-    do
+    if (activeFile == "None")
     {
-        if(activeFile == "None");
+        cout << "No active file! " << endl;;
+    }
+    else
+    {
+        do
         {
-            cout << "No active file. Please create a new file first." << endl << endl;
-            break;
-        }
-        displayStudentRecords(activeFile,students);
-        cout << "[A]dd [E]dit [D]elete [S]ort sa[V]e e[X]it" << endl;
-        cout << "Enter choice: ";
-        cin >> choice;
-        cout << endl;
+            displayStudentRecords(activeFile,students);
+            cout << "[A]dd [E]dit [D]elete [S]ort sa[V]e e[X]it" << endl;
+            cout << "Enter choice: ";
+            cin >> choice;
+            cout << endl;
 
-        switch(toupper(choice))
-        {
-            case 'A':
+            switch(toupper(choice))
             {
-                addRecordButton(students);
-                break;
-            }
-            case 'E':
-            {
-                int index;
-                cout << "Enter record number you wish to edit: ";
-                cin >> index;
-                editRecordButton(students,index - 1);
-                break;
-            }
-            case 'D':
-            {
-                int index;
-                cout << "Enter record number you wish to delete: ";
-                cin >> index;
-                deleteRecordButton(students, index - 1);
-                break;
-            }
-            case 'S':
-            {
-                int c;
-                cout << "Sort by     : [1]Surname [2]ID "<< endl;
-                cout << "Enter choice: ";
-                cin >> c;
-                if (c==1)
+                case 'A':
                 {
-                    sortBySurnameButton(students);
+                    addRecordButton(students);
+                    break;
                 }
-                else
+                case 'E':
                 {
-                    sortByIdButton(students);
+                    int index;
+                    cout << "Enter record number you wish to edit: ";
+                    cin >> index;
+                    editRecordButton(students,index - 1);
+                    break;
                 }
-                break;
-            }
-            case 'V':
-            {
-                saveFileButton(activeFile,students);
-                break;
-            }
-            case 'X' :
-            {
-                cout << "Exiting Manage Data Option..." << endl; 
-                break;
-            }
-            default:
-            {
-                cout << "Enter valid choice please..."  << endl;
+                case 'D':
+                {
+                    int index;
+                    cout << "Enter record number you wish to delete: ";
+                    cin >> index;
+                    deleteRecordButton(students, index - 1);
+                    break;
+                }
+                case 'S':
+                {
+                    int c;
+                    cout << "Sort by     : [1]Surname [2]ID "<< endl;
+                    cout << "Enter choice: ";
+                    cin >> c;
+                    if (c==1)
+                    {
+                        sortBySurnameButton(students);
+                    }
+                    else
+                    {
+                        sortByIdButton(students);
+                    }
+                    break;
+                }
+                case 'V':
+                {
+                    saveFileButton(activeFile,students);
+                    break;
+                }
+                case 'X' :
+                {
+                    cout << "Exiting Manage Data Option..." << endl; 
+                    break;
+                }
+                default:
+                {
+                    cout << "Enter valid choice please..."  << endl;
 
+                }
+            
             }
-           
-        }
-    } while (choice!= 'X'  && choice != 'x');
+        } while (choice!= 'X'  && choice != 'x');
+    }
 }
 
 void saveFileButton(string &activeFile, vector<Student> &students)
