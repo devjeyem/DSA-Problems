@@ -107,7 +107,8 @@ void displayStudentRecords(string &activeFile, vector<Student> &students) //Work
         {
         cout << i + 1 << "\t" << students[i].studentId << "\t" 
              << setw(10) << left <<  students[i].surName << "\t" 
-             << setw(10) << left << students[i].firstName << "\t" << students[i].birthDate << "\t\t" 
+             << setw(10) << left << students[i].firstName << "\t" 
+             << setw(10) << left << students[i].birthDate << "\t" 
              << students[i].gender << endl;
         }
         cout << "---------------------------------------------------------------------------" << endl;
@@ -215,6 +216,7 @@ void saveFileButton(string &activeFile, vector<Student> &students)
 
 void addRecordButton(vector<Student> &students)
 {
+
     Student newStudent;
     cout << "Rec:[" << students.size() + 1 << "]" << endl;
     cout << endl;
