@@ -265,7 +265,7 @@ void editRecordButton(vector<Student> &students, int i)
         student.surName = newSurname;
     }
 
-    cout << "Firstname \t: " << student.firstName << "\t: ";
+    cout << "Firstname \t: " << student.firstName << setw(10) << right << "\t: ";
     string newFirstName;
     getline(cin,newFirstName);
     if (!newFirstName.empty())
