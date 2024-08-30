@@ -262,13 +262,13 @@ void editRecordButton(vector<Student> &students, int i)
     getline(cin,newSurname);
     if (!newSurname.empty())
     {
-        student.surName = newSurname;
+        student.surName = newSurname; 
     }
 
     cout << "Firstname \t: " << student.firstName << setw(10) << right << "\t: ";
     string newFirstName;
-    getline(cin,newFirstName);
-    if (!newFirstName.empty())
+    getline(cin,newFirstName); 
+    if (!newFirstName.empty()) 
     {
         student.firstName = newFirstName;
     }
@@ -276,7 +276,7 @@ void editRecordButton(vector<Student> &students, int i)
     cout <<  "Birthdate \t: " << student.birthDate << "\t: ";
     string newBirthDate;
     cin >> newBirthDate;
-    if (!newBirthDate.empty())
+    if (!newBirthDate.empty()) 
     {
         student.birthDate = newBirthDate;
     }
@@ -286,7 +286,7 @@ void editRecordButton(vector<Student> &students, int i)
     cin >> newSex;
     if (newSex == 'M' || newSex == 'F')
     {
-        student.gender = newSex;
+        student.gender = newSex; 
     }
     cout << "Record successfully edited!" << endl << endl;
 }
