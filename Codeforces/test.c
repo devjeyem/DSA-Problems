@@ -9,7 +9,7 @@ void problem9();
 
 int main() 
 {
-    //string();
+    stringLateral();
    arr1();
    //doublePointer();
    //problem8();
@@ -19,7 +19,7 @@ int main()
 void stringLateral()
 {
     char *s = "algorithms";
-   char *p = s;
+   char *p = s+4;
    printf("%c\n", *(p+3));
    printf("%c\n", s[4]);
 }
