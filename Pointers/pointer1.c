@@ -6,12 +6,9 @@ int main()
     int num = 10;
     int *p , **q,**r,***s,***t,***u,***v;
     p=&num;
-    q=&p;
-    r=&p;
-    s=&q;
-    t=&q;
-    u=&r;
-    v=&r;
+    q=r=&p;
+    s=t=&q;
+    u=v=&r;
 
     printf("%d ", *p);
     printf("%d ", **q);
