@@ -1,32 +1,46 @@
-/*#include <stdio.h>
-
-struct student
-{
-    char *name;
-};
-
-void main()
-{
-    struct student s[2], r[2];
-    s[1] = s[0] = "alan";
-    printf("%s%s", s[0].name, s[1].name);
-}*/
-
 #include <stdio.h>
+#include <stdlib.h>
 
-struct student
+int main()
 {
-    char *name;
-};
+    // Allocate memory for 4 elements on the heap
+    int **x = (int **)malloc(4 * sizeof(int *));
+    
+    // x[0] is an integer with value 1
+    x[0] = (int *)malloc(sizeof(int));
+    *x[0] = 1;
+    
+    // x[1] points to another heap with size 2
+    x[1] = (int *)malloc(2 * sizeof(int));
+    x[1][0] = 10; // example value
+    x[1][1] = 20; // example value
+    
+    // x[2] is NULL
+    x[2] = NULL;
+    
+    // x[3] points to another heap with size 6
+    x[3] = (int *)malloc(6 * sizeof(int));
+    for (int i = 0; i < 6; i++)
+    {
+        x[3][i] = i * 10; // example values
+    }
+    
+    // Example: Accessing and printing values
+    printf("x[0] = %d\n", *x[0]);
+    printf("x[1][0] = %d, x[1][1] = %d\n", x[1][0], x[1][1]);
+    printf("x[2] = %p\n", x[2]);
+    printf("x[3]: ");
+    for (int i = 0; i < 6; i++)
+    {
+        printf("%d ", x[3][i]);
+    }
+    printf("\n");
 
-int main()  // Use int main() as the standard return type
-{
-    struct student s[2];
+    // Free allocated memory
+    free(x[0]);
+    free(x[1]);
+    free(x[3]);
+    free(x);
 
-    s[0].name = "alan";
-    s[1].name = "alan";
-
-    printf("%s%s\n", s[0].name, s[1].name);
-
-    return 0;  // Return 0 to indicate successful completion
+    return 0;
 }
