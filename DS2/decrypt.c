@@ -1,51 +1,47 @@
 #include <stdio.h>
 
+// Function to calculate the greatest common divisor (GCD) using Euclidean Algorithm
+int gcd(int a, int b) 
+{
+    if (b == 0)
+        return a;
+    else
+        return gcd(b, a % b);
+}
+
+// Function to calculate the modular inverse using Extended Euclidean Algorithm
+int modInverse(int a, int m) 
+{
+    int m0 = m;
+    int y = 0, x = 1;
+
+    if (gcd(a, m) != 1) 
+    {
+        printf("Modular inverse does not exist\n");
+        return -1;
+    }
+
+    while (a > 1) 
+    {
+        int q = a / m;
+        int t = m;
+
+        m = a % m;
+        a = t;
+        t = y;
+
+        y = x - q * y;
+        x = t;
+    }
+
+    if (x < 0)
+        x = x + m0;
+
+    return x;
+}
+
 int main() {
-    int base, exponent, modulus;
-
-    printf("Enter the base: ");
-    scanf("%d", &base);
-
-    printf("Enter the exponent: ");
-    scanf("%d", &exponent);
-
-    printf("Enter the modulus: ");
-    scanf("%d", &modulus);
-
-    int x, y;
-    int gcd = 0;
-
-    // Calculate GCD using Extended Euclidean Algorithm
-    int a = base;
-    int b = modulus;
-    int temp;
-    while (b != 0) {
-        temp = b;
-        b = a % b;
-        a = temp;
-        if (a != 0) {
-            temp = y;
-            y = x - (a / b) * y;
-            x = temp;
-        }
-    }
-    gcd = a;
-    x = (x % modulus + modulus) % modulus;
-
-    // Check if modular inverse exists
-    if (gcd != 1) {
-        printf("Modular inverse does not exist.\n");
-        return 0;
-    }
-
-    // Calculate inverse modular exponentiation
-    int result = 1;
-    int inverse = x;
-    for (int i = 0; i < exponent; i++) {
-        result = (result * inverse) % modulus;
-    }
-
-    printf("Inverse modular exponentiation result: %d\n", result);
-
+    int d = modInverse(13, 2436);
+    printf("Modular inverse of 13 modulo 2436 is %d\n", d);
     return 0;
 }
