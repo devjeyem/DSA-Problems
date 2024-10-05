@@ -9,7 +9,7 @@ int **generateHintMap(int **field, int x, int y)
     {
         field2[i];
     }
-}
+}//as
 
 int main()
 {
