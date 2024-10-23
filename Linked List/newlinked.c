@@ -131,6 +131,60 @@ SNODE delLast(SNODE head)
     }
 }
 
+SNODE delLast1(SNODE head)
+{
+    if (head == NULL)
+    {
+        printf("EMPTY LIST\n");
+        return head;
+    }
+    else if (head->next == NULL)
+    {
+        free(head);
+        return NULL;
+    }
+    else
+    {
+        SNODE temp = head;
+        while (temp->next->next != NULL)
+        {
+            temp = temp ->next;
+        }
+        free(temp->next);
+        temp->next = NULL;
+        return head;
+    }
+}
+
+SNODE delList(SNODE head)
+{
+    SNODE temp = head;
+    while (temp!=NULL)
+    {
+        temp = temp -> next;
+        free(head);
+        head = temp;
+    }
+    return head;
+}
+
+SNODE reverse(SNODE head)
+{
+    SNODE temp = NULL; 
+    SNODE temp2 = NULL;
+
+    while (head!= NULL)
+    {
+        temp2 = head ->next;
+        head->next = temp; //update null
+        temp = head;
+        head = temp2;
+    }
+    head =  temp;
+    return head;
+
+}
+
 int main()
 {
     // Creating a linked list with 3 nodes
@@ -166,8 +220,22 @@ int main()
     printf("\n");
 
     // Delete the last node
-    head = delLast(head);
+    /*head = delLast(head);
     //printf("After deleting the last node: ");
+    printData(head);
+    printf("\n");
+
+    head = delLast1(head);
+    //printf("After deleting the last node: ");
+    printData(head);
+    printf("\n"); 
+
+    head = delList(head);
+    //printf("After deleting the last node: ");
+    printData(head);
+    printf("\n");*/        
+
+    head = reverse(head);
     printData(head);
     printf("\n");
 
