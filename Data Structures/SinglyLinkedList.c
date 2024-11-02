@@ -29,7 +29,7 @@ SLL createList()
 void printSLL(SLL sll)
 {
     if (sll->size>0)
-===    {
+    {
         SNODE p = sll->head;
         while (p!=NULL)
         {
