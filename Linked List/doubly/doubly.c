@@ -48,13 +48,14 @@ DLL createDLL()
     return d;
 }
 
+
 void DLL_addLast(DLL dll, Element data)
 {
-    if(dll->size == 0)
+    if (dll->size == 0)
     {
         dll->head = dll->tail = (DNODE)malloc(sizeof(struct dnode));
         dll->head->prev = dll->head->next = NULL;
-        dll->head->data =  data;
+        dll->head->data = data;
     }
     else
     {
@@ -64,6 +65,7 @@ void DLL_addLast(DLL dll, Element data)
         temp->prev = dll->tail;
         dll->tail->next = temp;
         dll->tail = temp;
+
     }
     dll->size++;
 }
@@ -79,7 +81,7 @@ DLL_addFirst(DLL dll, Element data)
     }
     else
     {
-        DNODE  temp = (DNODE)malloc(sizeof(struct dnode));
+        DNODE temp = (DNODE)malloc(sizeof(struct dnode));
         temp->data = data;
         temp->prev = NULL;
         temp->next = dll->head;
@@ -89,50 +91,52 @@ DLL_addFirst(DLL dll, Element data)
     dll->size++;
 }
 
+
 DLL DLL_removeDuplicates(DLL list)
 {
-	if (list == NULL || list->size<=1)
-	{
-	    return list;
-	}
-	bool flag[10000] = {0};
-	
-	DNODE current = list->head;
-	while (current!=NULL)
-	{
-	    int data = current->data;
-	    DNODE nextNode = current->next;
-	    if (flag[data+5000])
-	    {
-	        if (current->prev)
-	        {
-	            current->prev->next = current->next;
-	        }
-	        else
-	        {
-	            list->head = current->next;
-	        }
-	        if(current->next)
-	        {
-	            current->next->prev = current->prev;
-	        }
-	        else
-	        {
-	            list->tail = current->prev;
-	        }
-	        free(current);
-	        list->size--;
-	    }
-	    else
-	    {
-	        flag[data+5000] = true;
-	    }
-	    current = nextNode;
-	}
-	return list;
-}
+    bool flag[10000] = {0};
+    if (list==NULL || list->size <= 1)
+    {
+        return list;
+    }
 
-void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y) {
+    DNODE current = list->head;
+    while (current!=NULL)
+    {
+        Element data = current->data;
+        DNODE nextNode = current->next;
+        if (flag[data+5000])
+        { 
+            if (current->prev)
+            {
+                current->prev->next = current->next;
+            }
+            else
+            {
+                list->head = current -> next;
+            }
+            if (current->next)
+            {
+                current->next->prev = current->prev;
+            }
+            else
+            {
+                list->tail = current-> prev;
+            }
+            free(current);
+            list->size--;
+        }
+        else
+        {
+            flag[data+5000] = true;
+        }
+        current=current->next;
+    }
+    return list;
+}
+ 
+
+/*void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y) {
     if (list == NULL || list->size == 0) {
         return; // Empty list or NULL input, nothing to delete
     }
@@ -164,7 +168,48 @@ void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y) {
             current = current->prev; // Move to the previous node if data doesn't match
         }
     }
+}*/
+
+void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y)
+{
+    if(list==NULL || list->size ==0) return;
+    int count = 0;
+
+    DNODE current = list->tail;
+    while (current!=NULL && count < 3)
+    {
+        if (current->data==y)
+        {
+            DNODE temp = current;
+            if (current->prev)
+            {
+                current->prev->next = current->next;
+            }
+            else 
+            {
+                list->head = current->next;
+            }
+            if (current->next)
+            {
+                current->next->prev = current->prev;
+            }
+            else
+            {
+                list->tail = current->prev;    
+            }
+            current = current->prev;
+            free(temp);
+            list->size--;
+            count++;
+        }
+        else
+        {
+            current = current->prev;
+        }
+    }
 }
+
+
 
 typedef struct cnode
 {
@@ -226,6 +271,13 @@ int main()
 
     DLL_removeDuplicates(dll);
     printDLL(dll);
+
+    printf("=======================\n");
+
+    DLL_deleteThreeMaxOccurrenceOfY(dll,6);
+    printDLL(dll);
+
+
 
 
 
