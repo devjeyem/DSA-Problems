@@ -48,6 +48,86 @@ DLL createDLL()
     return d;
 }
 
+void addZeroBeforeAndAfterX(DLL dll, int x)
+{
+	DNODE p = dll->head;
+
+	if(p->data == x && p->next != NULL)
+	{
+		DNODE d = (DNODE)malloc(sizeof(struct dnode));
+		d->data = 0;
+		d->prev = NULL;
+		d->next = p;
+
+		dll->head = d;
+		p->prev = d;
+
+		d = (DNODE) malloc(sizeof(struct dnode));
+		d->data = 0;
+		d->prev = p;
+		d->next = p->next;
+
+		p->next->prev = d;
+		p->next = d;
+
+		p = p->next->next;
+		dll->size+=2;
+	}
+
+	while(p->next != NULL)
+	{
+		if(p->data == x)
+		{
+			DNODE d = (DNODE) malloc(sizeof(struct dnode));
+			d->data = 0;
+			d->prev = p->prev;
+			d->next = p;
+
+			p->prev->next = d;
+			p->prev = d;
+
+			d = (DNODE) malloc(sizeof(struct dnode));
+			d->data = 0;
+			d->prev = p;
+			d->next = p->next;
+
+			p->next->prev = d;
+			p->next = d;
+
+			dll->size +=2;
+			p = p->next->next;
+		}
+		else
+			p = p->next;
+	}
+
+	//insert to tail
+	if(p->data == x)
+	{
+		DNODE d = (DNODE)malloc(sizeof(struct dnode));
+		d->data = 0;
+		d->prev = p->prev;
+		d->next = p;
+
+		p->prev->next = d;
+		p->prev = d;
+
+		d = (DNODE)malloc(sizeof(struct dnode));
+		d->data = 0;
+		d->prev = p;
+		d->next = p->next;
+
+		p->next = d;
+
+		dll->tail = d;
+
+		dll->size += 2;
+		p = p->next->next;
+	}
+
+}
+
+
 
 void DLL_addLast(DLL dll, Element data)
 {
@@ -59,19 +139,17 @@ void DLL_addLast(DLL dll, Element data)
     }
     else
     {
-        DNODE temp =  (DNODE)malloc(sizeof(struct dnode));
-        temp->data = data;
-        temp->next = NULL;
-        temp->prev = dll->tail;
-        dll->tail->next = temp;
-        dll->tail = temp;
-
+        DNODE newNode = (DNODE)malloc(sizeof(struct dnode));
+        newNode->data = data;
+        newNode->next= NULL;
+        newNode->prev = dll->tail;
+        dll->tail->next = newNode;
+        dll->tail = newNode;
     }
     dll->size++;
 }
 
-
-DLL_addFirst(DLL dll, Element data)
+void DLL_addFirst(DLL dll, Element data)
 {
     if (dll->size == 0)
     {
@@ -81,12 +159,12 @@ DLL_addFirst(DLL dll, Element data)
     }
     else
     {
-        DNODE temp = (DNODE)malloc(sizeof(struct dnode));
-        temp->data = data;
-        temp->prev = NULL;
-        temp->next = dll->head;
-        dll->head->prev = temp;
-        dll->head = temp;
+        DNODE newNode = (DNODE)malloc(sizeof(struct dnode));
+        newNode->data = data;
+        newNode->next = dll->head;
+        newNode->prev = NULL;
+        dll->head->prev = newNode;
+        dll->head = newNode;
     }
     dll->size++;
 }
@@ -243,6 +321,51 @@ void printCLL(CLL cll)
                 } while(p != cll->head);
                 printf("\n");
         }
+}
+
+void CLL_addFirst(CLL cll, Element data)
+{
+	if(cll->size == 0)
+	{
+		cll->head = (CNODE) malloc(sizeof(struct cnode));
+		cll->head->next = cll->head;
+		cll->head->data = data;
+	}
+	else
+	{
+		CNODE c = (CNODE) malloc(sizeof(struct cnode));
+		c->data = data;
+		CNODE p = cll->head;
+		while(p->next != cll->head)
+			p = p->next;
+
+		c->next = cll->head;
+		p->next = c;
+		cll->head = c;
+	}
+	cll->size++;
+}
+
+void CLL_addLast(CLL cll, Element data)
+{
+	if(cll->size == 0)
+	{
+		cll->head = (CNODE) malloc(sizeof(struct cnode));
+		cll->head->next = cll->head;
+		cll->head->data = data;
+	}
+	else
+	{
+		CNODE c = (CNODE) malloc(sizeof(struct cnode));
+		c->data = data;
+		CNODE p = cll->head;
+		while(p->next != cll->head)
+			p = p->next;
+
+		c->next = cll->head;
+		p->next = c;
+	}
+	cll->size++;
 }
 
 void CLL_rotateRight(CLL l, int n) 
