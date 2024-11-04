@@ -134,7 +134,7 @@ DLL DLL_removeDuplicates(DLL list)
     }
     return list;
 }
- 
+
 
 /*void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y) {
     if (list == NULL || list->size == 0) {
@@ -213,36 +213,36 @@ void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y)
 
 typedef struct cnode
 {
-	Element data;
-	struct cnode *next;
+        Element data;
+        struct cnode *next;
 } *CNODE;
 
 typedef struct cll
 {
-	CNODE head;
-	int size;
+        CNODE tail,head;
+        int size;
 } *CLL;
 
 CLL createCLL()
 {
-	CLL c = (CLL) malloc(sizeof(struct cll));
-	c->head = NULL;
-	c->size = 0;
-	return c;
+        CLL c = (CLL) malloc(sizeof(struct cll));
+        c->head = NULL;
+        c->size = 0;
+        return c;
 }
 
 void printCLL(CLL cll)
 {
-	if(cll->head != NULL)
-	{
-		CNODE p = cll->head;
-		do
-		{
-			printf("%d->", p->data);
-			p = p->next;
-		} while(p != cll->head);
-		printf("\n");
-	}
+        if(cll->head != NULL)
+        {
+                CNODE p = cll->head;
+                do
+                {
+                        printf("%d->", p->data);
+                        p = p->next;
+                } while(p != cll->head);
+                printf("\n");
+        }
 }
 
 void CLL_rotateRight(CLL l, int n) 
@@ -300,13 +300,13 @@ void CLL_rotateLeft(CLL l, int n)
 
 CLL createCLLHex(int n) {
     // Step 1: Create the circular linked list structure in the heap
-    CLL list = (CLL)malloc(sizeof(struct _cll));
+    CLL list = (CLL)malloc(sizeof(struct cll));
     list->head = NULL;
     list->size = 0;
 
     // Edge case: If n is 0, add a single node with '0' and return
     if (n == 0) {
-        CNODE newNode = (CNODE)malloc(sizeof(struct _cnode));
+        CNODE newNode = (CNODE)malloc(sizeof(struct cnode));
         newNode->data = '0';
         newNode->next = newNode;  // Point to itself, making it circular
         list->head = newNode;
@@ -316,7 +316,7 @@ CLL createCLLHex(int n) {
 
     // Step 2: Convert n to hexadecimal and add each digit to the list in correct order
     CNODE tail = NULL;  // Track the last node to form the circular link
-    
+
     // Temporary array to store hex digits
     char hexDigits[16];
     int digitCount = 0;
@@ -329,7 +329,7 @@ CLL createCLLHex(int n) {
 
     // Step 3: Add each digit from the array to the list (from most significant to least significant)
     for (int i = digitCount - 1; i >= 0; i--) {
-        CNODE newNode = (CNODE)malloc(sizeof(struct _cnode));
+        CNODE newNode = (CNODE)malloc(sizeof(struct cnode));
         newNode->data = hexDigits[i];
 
         if (list->head == NULL) {
@@ -361,17 +361,17 @@ int main()
     head->prev = NULL;
     head->data=10;
     head->next=NULL;*/
-	DLL dll = createDLL();
+        DLL dll = createDLL();
 
-	DLL_addLast(dll, 6);
-	DLL_addLast(dll, 2);
-	DLL_addLast(dll, 6);
-	DLL_addLast(dll, 3);
-	DLL_addLast(dll, 7);
-	DLL_addLast(dll, 6);
-	DLL_addLast(dll, 6);
-	DLL_addLast(dll, 5);
-	DLL_addLast(dll, 6);
+        DLL_addLast(dll, 6);
+        DLL_addLast(dll, 2);
+        DLL_addLast(dll, 6);
+        DLL_addLast(dll, 3);
+        DLL_addLast(dll, 7);
+        DLL_addLast(dll, 6);
+        DLL_addLast(dll, 6);
+        DLL_addLast(dll, 5);
+        DLL_addLast(dll, 6);
     DLL_addFirst(dll, 1);
 
     printDLL(dll);
