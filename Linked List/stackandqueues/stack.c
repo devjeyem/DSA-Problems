@@ -18,8 +18,10 @@ STACK_ARR createStack(int capacity)
     st->top = 0;
     st->capacity = capacity;
     st->storage = (Element*)malloc(sizeof(Element)*capacity);
-    for(int i = 0; i < capacity; i++)
-    st->storage[i] = 0;
+    for(int i = 0; i<capacity; i++)
+    {
+        st->storage[i] = 0;
+    }
     return st;
 }
 
@@ -35,8 +37,8 @@ int isEmpty(STACK_ARR stack)
 
 void push(STACK_ARR stack, Element data)
 {
-    if (!isFull(stack))
-    stack->storage[stack->top++] = data;
+    if(!isFull(stack))
+        stack->storage[stack->top++] = data;
 }
 
 Element pop(STACK_ARR stack)
@@ -44,17 +46,24 @@ Element pop(STACK_ARR stack)
     return (isEmpty(stack)) ? -1 : stack->storage[--(stack->top)];
 }
 
+Element peek(STACK_ARR stack)
+{
+    return (isEmpty(stack)) ? -1 : stack->storage[stack->top - 1];
+}
+
 STACK_ARR reverseStack(STACK_ARR original) 
 {
     STACK_ARR reversed = createStack(original->capacity);
     STACK_ARR temp = createStack(original->capacity);
 
-    while (!isEmpty(original)) {
-    push(temp, pop(original));
+    while (!isEmpty(original)) 
+    {
+        push(temp, pop(original));
     }
 
-    while (!isEmpty(temp)) {
-    push(reversed, pop(temp));
+    while (!isEmpty(temp)) 
+    {
+        push(reversed, pop(temp));
     }
 
     free(temp->storage);
