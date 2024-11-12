@@ -169,37 +169,33 @@ void DLL_addFirst(DLL dll, Element data)
     dll->size++;
 }
 
-
 DLL DLL_removeDuplicates(DLL list)
 {
-    bool flag[10000] = {0};
-    if (list==NULL || list->size <= 1)
-    {
-        return list;
-    }
+    if (list == NULL || list->size == 0) return list;
 
+    bool flag[10000] = {0};
     DNODE current = list->head;
-    while (current!=NULL)
+    while(current!=NULL)
     {
         Element data = current->data;
-        DNODE nextNode = current->next;
         if (flag[data+5000])
-        { 
-            if (current->prev)
+        {
+            if(current->prev)
             {
                 current->prev->next = current->next;
+
             }
             else
             {
-                list->head = current -> next;
+                list->head = current->next;
             }
             if (current->next)
             {
                 current->next->prev = current->prev;
             }
-            else
+            else 
             {
-                list->tail = current-> prev;
+                list->tail = current->prev;
             }
             free(current);
             list->size--;
@@ -208,10 +204,52 @@ DLL DLL_removeDuplicates(DLL list)
         {
             flag[data+5000] = true;
         }
-        current=current->next;
+        current = current->next;
     }
-    return list;
 }
+
+void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y)
+{
+    if (list == NULL || list->size == 0) return;
+
+    int ctr = 0;
+
+    DNODE current = list->tail;
+    while(current!=NULL && ctr < 3)
+    {
+        if (current->data == y)
+        {
+            DNODE temp = current;
+            if (current->prev)
+            {
+                current->prev->next = current->next;
+            }
+            else
+            {
+                list->head  = current->next;
+            }
+
+            if (current->next)
+            {
+                current->next->prev = current->prev;
+            }
+            else
+            {
+                list->tail = current->prev;
+            }
+            current = current ->prev;
+            free(temp);
+            list->size--;
+            ctr++;
+        }
+        else
+        {
+            current = current->prev;
+        }
+    }
+}
+
+
 
 
 /*void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y) {
@@ -248,44 +286,7 @@ DLL DLL_removeDuplicates(DLL list)
     }
 }*/
 
-void DLL_deleteThreeMaxOccurrenceOfY(DLL list, int y)
-{
-    if(list==NULL || list->size ==0) return;
-    int count = 0;
 
-    DNODE current = list->tail;
-    while (current!=NULL && count < 3)
-    {
-        if (current->data==y)
-        {
-            DNODE temp = current;
-            if (current->prev)
-            {
-                current->prev->next = current->next;
-            }
-            else 
-            {
-                list->head = current->next;
-            }
-            if (current->next)
-            {
-                current->next->prev = current->prev;
-            }
-            else
-            {
-                list->tail = current->prev;    
-            }
-            current = current->prev;
-            free(temp);
-            list->size--;
-            count++;
-        }
-        else
-        {
-            current = current->prev;
-        }
-    }
-}
 
 // =====================================================================
 
@@ -325,26 +326,29 @@ void printCLL(CLL cll)
 
 void CLL_addFirst(CLL cll, Element data)
 {
-	if(cll->size == 0)
-	{
-		cll->head = (CNODE) malloc(sizeof(struct cnode));
-		cll->head->next = cll->head;
-		cll->head->data = data;
-	}
-	else
-	{
-		CNODE c = (CNODE) malloc(sizeof(struct cnode));
-		c->data = data;
-		CNODE p = cll->head;
-		while(p->next != cll->head)
-			p = p->next;
-
-		c->next = cll->head;
-		p->next = c;
-		cll->head = c;
-	}
-	cll->size++;
+    if(cll->size == 0)
+    {
+        cll->head = (CNODE)malloc(sizeof(struct cnode));
+        cll->head->next = cll->head;
+        cll->head->data = data;
+    }
+    else
+    {
+        CNODE newNode =  (CNODE)malloc(sizeof(struct cnode));
+        newNode->data = data;
+        CNODE p = cll->head;
+        while (p->next != cll->head)
+        {
+            p = p->next;
+        }
+        newNode->next = cll->head;
+        p->next = newNode;
+        cll->head = newNode;
+    }
+    cll->size++;
 }
+
+
 
 void CLL_addLast(CLL cll, Element data)
 {
@@ -422,11 +426,10 @@ void CLL_rotateLeft(CLL l, int n)
 }
 
 CLL createCLLHex(int n) {
-    // Step 1: Create the circular linked list structure in the heap
-    CLL list = (CLL)malloc(sizeof(struct cll));
-    list->head = NULL;
-    list->size = 0;
-
+    // Step 1: Create the circular linked list structure in the heapCNw
+        CLL list = (CLL)malloc(sizeof(struct cll));
+        list->head = NULL;
+        list->size = 0;
     // Edge case: If n is 0, add a single node with '0' and return
     if (n == 0) {
         CNODE newNode = (CNODE)malloc(sizeof(struct cnode));
@@ -456,7 +459,7 @@ CLL createCLLHex(int n) {
         newNode->data = hexDigits[i];
 
         if (list->head == NULL) {
-            // First node becomes the head
+            //A
             list->head = newNode;
             newNode->next = newNode;  // Point to itself initially
         } else {
