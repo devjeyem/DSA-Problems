@@ -68,7 +68,7 @@ search_by = tk.StringVar()
 
 studentno_lbl = tk.Label(
     detail_frame,
-    text="Student No.",
+    text="Student ID",
     font=("Arial",17),
     bg="green",
     fg="yellow"
@@ -216,6 +216,7 @@ def add_func():
             conn.close()
             messagebox.showinfo("Success", "Student added successfully!")
             fetch_data()  # Refresh the table after adding a new student
+            clear()
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
