@@ -6,7 +6,7 @@ import pymysql
 
 win = tk.Tk()
 win.geometry("1350x750+0+0")
-win.title("Student Management System")
+win.title("Student Records Management System")
 
 # Create a Canvas for the background image
 canvas = tk.Canvas(win, width=1350, height=750)
@@ -20,7 +20,7 @@ canvas.create_image(0, 0, image=background_photo, anchor=tk.NW)
 
 title_label = tk.Label(
     win,
-    text="Student Management System",
+    text="Student Records Management System",
     font=("Arial",26),
     border=12,
     relief=tk.GROOVE,
