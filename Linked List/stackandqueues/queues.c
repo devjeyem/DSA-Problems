@@ -43,7 +43,7 @@ Element dequeue(QUEUE_ARR q){
     q->count--;
     return x;
     } else
-    return -1;
+    return -1; 
 }
 
 int main() {
