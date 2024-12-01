@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef int Element;
 
@@ -72,6 +73,47 @@ STACK_ARR reverseStack(STACK_ARR original)
     return reversed;
 }
 
+int isMatchingPair(char open, char close) 
+{
+    return (open == '(' && close == ')') ||
+           (open == '{' && close == '}') ||
+           (open == '[' && close == ']');
+}
+
+int isValidParentheses(const char* str) 
+{
+    int n = strlen(str);
+    STACK_ARR stack = createStack(n);
+
+    for (int i = 0; i < n; i++) 
+    {
+        char ch = str[i];
+
+        if (ch == '(' || ch == '{' || ch == '[') 
+        {
+            // Push opening brackets
+            push(stack, ch);
+        } 
+        else if (ch == ')' || ch == '}' || ch == ']') 
+        {
+            // Check if the stack is empty or does not match
+            if (isEmpty(stack) || !isMatchingPair(pop(stack), ch)) 
+            {
+                free(stack->storage);
+                free(stack);
+                return 0; // Invalid
+            }
+        }
+    }
+
+    // Check if the stack is empty after processing
+    int result = isEmpty(stack);
+    free(stack->storage);
+    free(stack);
+    return result;
+}
+
+
 int main() 
 {
 char *str = "823^/23*+51*-";
@@ -96,7 +138,16 @@ char *str = "823^/23*+51*-";
         }
     }
     printf("Answer: %d",pop(val));
-    return 0;
+    
+    const char* test1 = "(){}[]";
+    const char* test2 = "({[()]})";
+    const char* test3 = "(]";
+    const char* test4 = "({[)}";
+
+    printf("Test 1: %s -> %s\n", test1, isValidParentheses(test1) ? "Valid" : "Invalid");
+    printf("Test 2: %s -> %s\n", test2, isValidParentheses(test2) ? "Valid" : "Invalid");
+    printf("Test 3: %s -> %s\n", test3, isValidParentheses(test3) ? "Valid" : "Invalid");
+    printf("Test 4: %s -> %s\n", test4, isValidParentheses(test4) ? "Valid" : "Invalid");
 }
 
 

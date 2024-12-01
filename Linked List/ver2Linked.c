@@ -70,7 +70,6 @@ void addFirst(SLL sll, int data)
     newNode->data = data;
     newNode->next = sll->head;
 
-    newNode->next =  sll->head;
     sll->head = newNode;
     sll->size++;
 }

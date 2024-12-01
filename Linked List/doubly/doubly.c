@@ -324,6 +324,27 @@ void printCLL(CLL cll)
         }
 }
 
+void CLL_deleteTail(CLL list)
+{
+    if(list->size == 1)
+    {
+        free(list->tail);
+        list->tail = NULL;
+        list->size--;
+    }
+	else if(list->size > 0)
+	{
+	    CNODE p = list->tail;
+	    while(p->next != list->tail)
+	        p = p->next;
+	    CNODE d = list->tail;
+	    p->next = d->next;
+	    free(d);
+	    list->tail = p;
+	    list->size--;
+	}
+}
+
 void CLL_addFirst(CLL cll, Element data)
 {
     if(cll->size == 0)
@@ -374,29 +395,18 @@ void CLL_addLast(CLL cll, Element data)
 
 void CLL_rotateRight(CLL l, int n) 
 {
-    if (l == NULL || l->tail == NULL || n <= 0 || l->size <= 1) 
-    {
-        return; // No rotation needed if list is empty, single-element, or no effective rotations
-    }
-
-    // Step 1: Calculate effective rotations
+    if (l == NULL || l->tail == NULL ||l->size<=1||n<=0)
+        return;
     n = n % l->size;
-    if (n == 0) 
-    {
-        return; // No rotation needed if n is a multiple of the list's size
-    }
 
-    // Step 2: Find the new tail position
-    int stepsToNewTail = l->size - n;
+    if (n == 0)
+        return;
+
     CNODE newTail = l->tail;
+    for (int i = 1; i < l->size-n ; i++)
+        newTail = newTail -> next;
 
-    // Traverse `stepsToNewTail` times to find the new tail
-    for (int i = 0; i < stepsToNewTail; i++) {
-        newTail = newTail->next;
-    }
-
-    // Step 3: Update the tail
-    l->tail = newTail;
+    l->tail = newTail;    
 }
 
 void CLL_rotateLeft(CLL l, int n) 
@@ -509,6 +519,7 @@ int main()
 
     DLL_deleteThreeMaxOccurrenceOfY(dll,6);
     printDLL(dll);
+
 
 
 
