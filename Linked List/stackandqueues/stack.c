@@ -83,34 +83,32 @@ int isMatchingPair(char open, char close)
 int isValidParentheses(const char* str) 
 {
     int n = strlen(str);
-    STACK_ARR stack = createStack(n);
-
-    for (int i = 0; i < n; i++) 
+    STACK_ARR stack= createStack(n);
+    for (int i = 0; i<n; i++)
     {
         char ch = str[i];
 
-        if (ch == '(' || ch == '{' || ch == '[') 
+        if (ch == '(' || ch == '{' || ch ==  '[')
         {
-            // Push opening brackets
-            push(stack, ch);
-        } 
-        else if (ch == ')' || ch == '}' || ch == ']') 
+            push (stack,ch);
+        }
+        else if (ch == ')' || ch == '}' || ch ==  ']')
         {
-            // Check if the stack is empty or does not match
-            if (isEmpty(stack) || !isMatchingPair(pop(stack), ch)) 
+            if (isEmpty(stack) || !isMatchingPair(pop(stack),ch))
             {
                 free(stack->storage);
                 free(stack);
-                return 0; // Invalid
+                return 0;
             }
         }
     }
 
-    // Check if the stack is empty after processing
     int result = isEmpty(stack);
     free(stack->storage);
     free(stack);
+
     return result;
+
 }
 
 

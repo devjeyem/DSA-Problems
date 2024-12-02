@@ -51,12 +51,12 @@ int main() {
     QUEUE_ARR q = createQ(n);
     int limit = n +1;
     for(int i = 1; i < limit; i++)
-    enqueue(q,i);
+        enqueue(q,i);
     while(q->count > 1)
     {
-    for(int i = 1; i < m; i++)
-    enqueue(q, dequeue(q));
-    dequeue(q);
+        for(int i = 1; i < m; i++)
+            enqueue(q, dequeue(q));
+        dequeue(q);
     }
     printf("Winner: %d",dequeue(q));
     return 0;

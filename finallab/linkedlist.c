@@ -167,15 +167,15 @@ void SLL_deleteDuplicates(SLL list)
             {
                 if (p->data == q->next->data)
                 {
-                    SNODE r= q->next;
+                    SNODE r = q->next;
                     q->next = r->next;
                     free(r);
-                    list->size--;
+                    list->size --;
                 }
-                else  
+                else 
                     q = q->next;
             }
-            p = p->next;
+            p=p->next;
         }
     }
 
@@ -186,16 +186,16 @@ void SLL_sortList(SLL list)
     if (list->size > 1)
     {
         SNODE p = list->head;
-        while (p->next!=NULL)
+        while (p->next != NULL)
         {
             SNODE q = p->next;
-            while (q !=NULL)
+            while (q!=NULL)
             {
-                if (q->data> p->data)
+                if (q->data > p->data)
                 {
                     int temp = p->data;
                     p->data = q->data;
-                    q->data= temp;
+                    q->data = temp;
                 }
                 else
                     q = q->next;
@@ -241,16 +241,14 @@ void SLL_rotateLeft(SLL list, int n)
             return;
 
         SNODE newTail = list->head;
-        for (int i = 1; i < numRot ; i++)
-            newTail = newTail -> next;
+        for (int i = 1; i<numRot; i++)
+            newTail = newTail->next;
         
         SNODE newHead = newTail->next;
         SNODE end = newHead;
 
-        while (end->next !=NULL)
-        {
-            end=end->next;
-        }
+        while (end->next!=NULL)
+            end = end ->next;
 
         end->next = list->head;
         list->head = newHead;
