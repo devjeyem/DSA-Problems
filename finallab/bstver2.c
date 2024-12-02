@@ -81,35 +81,32 @@ void insert(NODE root, Element data)
     new->data = data;
     if (data > root->data)
     {
-       if (root->right == NULL)
-       {
+        if (root->right == NULL)
             root->right = new;
-       } 
-       else
-       {
+        else    
             insert(root->right,data);
-       }
     }
     else
     {
         if (root->left == NULL)
             root->left = new;
-        else
-            insert(root->left,data);
+        else    
+            insert(root->left,data);       
     }
 }
 
 
 void insertBST(BST tree, Element data)
 {
-    if(tree->root == NULL)
+    if (tree->root == NULL)
     {
         NODE new = createNode();
         new->data = data;
         tree->root = new;
     }
-    else
-        insert(tree->root, data);
+    else{
+        insert(tree->root,data);
+    }
 }
 
 void deleteBST(BST tree, Element target)
@@ -164,16 +161,22 @@ int searchBST(BST tree, Element target)
     return 0;
 }
 
+
+
 NODE search(NODE root, Element target, int* ctr)
 {
-    if(root == NULL) return NULL;
-    
+    if (root == NULL) return NULL;
+
     (*ctr)++;
-    if(target < root->data)
-        return search(root->left, target, ctr);
-    else if(target >  root->data)
-        return search(root->right, target, ctr);
-    else
+    if (target<root->data)
+    {
+        return search(root->left,target,ctr);
+    }
+    else if (target>root->data)
+    {
+        return search(root->right, target,ctr);
+    }
+    else    
         return root;
 }
 
