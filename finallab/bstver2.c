@@ -79,22 +79,26 @@ void insert(NODE root, Element data)
 {
     NODE new = createNode();
     new->data = data;
-
-    if(data > root->data)
+    if (data > root->data)
     {
-        if(root->right == NULL)
+       if (root->right == NULL)
+       {
             root->right = new;
-        else
-            insert(root->right, data);
+       } 
+       else
+       {
+            insert(root->right,data);
+       }
     }
     else
     {
-        if(root->left == NULL)
+        if (root->left == NULL)
             root->left = new;
         else
-            insert(root->left, data);
+            insert(root->left,data);
     }
 }
+
 
 void insertBST(BST tree, Element data)
 {
