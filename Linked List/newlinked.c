@@ -174,7 +174,7 @@ SNODE reverse(SNODE head)
     SNODE temp2 = NULL;
 
     while (head!= NULL)
-    {
+    {3 
         temp2 = head ->next;
         head->next = temp; //update null
         temp = head;

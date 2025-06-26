@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef char Item;
+typedef int Item;
 
 typedef struct snode
 {
@@ -151,14 +151,56 @@ void reverseSLL(SLL sll)
     sll->head = prev; // Set the new head of the reversed list
 }
 
+int SLL_checkPairs(SLL list)
+{
+    if (list->head == NULL)
+        return 1;
+    int max = list->head->data;
+    int min = list->head->data;
+    SNODE p = list->head->next;
+    while(p!=NULL)
+    {
+        if (p->data > max)
+            max = p->data;
+        if (p->data < min)
+            min = p->data;
+        p = p->next;
+    }
+
+    int s = max - min +1;
+    int ctr[s];
+    for (int i = 0; i < s; i++)
+        ctr[i] = 0;
+
+    p = list->head;
+    while(p!=NULL)
+    {
+        ctr[p->data - min]++;
+        p = p->next;
+    }
+
+    for (int i = 0; i < s; i++)
+    {
+        if (ctr[i] %2 != 0)
+            return 0;
+    }
+    return 1;
+}
+
 int main()
 {
     SLL list = createList();
-    addLast(list,'A');
-    addLast(list,'B');
-    addLast(list,'C');
+    addLast(list,'1');
+    addLast(list,'2');
+    addLast(list,'3');
+    addLast(list,'3');
+    addLast(list,'1');
+    addLast(list,'2');
     printSLL(list);
-    addFirst(list,'Z');
+    printf("%d", SLL_checkPairs(list));
+
+
+   /* addFirst(list,'Z');
     printSLL(list);
     insertXbetweenBandC(list,'X');
     printSLL(list);
@@ -167,6 +209,6 @@ int main()
     //deleteAll(list);
     //printSLL(list);
     reverseSLL(list);
-    printSLL(list);
+    printSLL(list);*/
 
 }

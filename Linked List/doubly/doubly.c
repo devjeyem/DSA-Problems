@@ -127,6 +127,14 @@ void addZeroBeforeAndAfterX(DLL dll, int x)
 
 }
 
+void DLL_rotateRight(DLL list, int n)
+{
+    if (list->size > 0)
+    {
+        
+    }
+}
+
 
 
 void DLL_addLast(DLL dll, Element data)
